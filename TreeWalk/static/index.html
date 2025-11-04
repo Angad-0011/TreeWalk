@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreeWalk – Tree Inventory Tool</title>
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-GZC0bIYGSrrsuUxzGq+KUX/B+gttqkOD9u9PlnnwY3A="
+      crossorigin=""
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.4em;
+      }
+      #content {
+        display: flex;
+        height: calc(100vh - 50px);
+      }
+      #map {
+        flex: 2;
+        min-height: 100%;
+      }
+      #sidebar {
+        flex: 1;
+        border-left: 1px solid #ccc;
+        padding: 10px;
+        overflow-y: auto;
+      }
+      #tree-form {
+        margin-bottom: 20px;
+      }
+      #tree-form label {
+        display: block;
+        margin-top: 8px;
+      }
+      #tree-list table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #tree-list th, #tree-list td {
+        padding: 4px;
+        border-bottom: 1px solid #ddd;
+        font-size: 0.9em;
+      }
+      #tree-list th {
+        text-align: left;
+        background: #f5f5f5;
+      }
+      .street-link {
+        color: #3498db;
+        text-decoration: none;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <h1>TreeWalk</h1>
+    <span>A lightweight clone of Project Sidewalk for tree inventory</span>
+  </header>
+  <div id="content">
+    <div id="map"></div>
+    <aside id="sidebar">
+      <h2>Add a Tree</h2>
+      <form id="tree-form">
+        <label for="lat">Latitude</label>
+        <input type="number" step="any" id="lat" name="lat" required>
+        <label for="lon">Longitude</label>
+        <input type="number" step="any" id="lon" name="lon" required>
+        <label for="species">Species (optional)</label>
+        <input type="text" id="species" name="species" placeholder="e.g., Neem">
+        <label for="notes">Notes (optional)</label>
+        <input type="text" id="notes" name="notes" placeholder="Any additional info">
+        <button type="submit">Add Tree</button>
+      </form>
+      <h2>Existing Trees</h2>
+      <div id="tree-list">
+        <!-- Table will be populated by JavaScript -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-oM/iD2V7Jfv8b6up5JSbuNpp3AVDfiibsZli1LVQ21o="
+    crossorigin=""
+  ></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
