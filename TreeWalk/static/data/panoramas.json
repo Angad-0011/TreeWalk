@@ -1,0 +1,32 @@
+[
+  {
+    "id": "chandigarh_capitol_complex",
+    "name": "Capitol Complex Walkthrough",
+    "lat": 30.75245,
+    "lon": 76.80076,
+    "gradientStops": [
+      { "offset": 0, "color": "#0f172a" },
+      { "offset": 0.35, "color": "#1e293b" },
+      { "offset": 0.65, "color": "#334155" },
+      { "offset": 1, "color": "#60a5fa" }
+    ],
+    "description": "Synthetic 360° panorama centred on the Capitol Complex to demonstrate Street View style navigation.",
+    "notes": "Use this as a placeholder for testing TreeWalk without external APIs.",
+    "heading": 90
+  },
+  {
+    "id": "chandigarh_leisure_valley",
+    "name": "Leisure Valley Promenade",
+    "lat": 30.74491,
+    "lon": 76.78254,
+    "gradientStops": [
+      { "offset": 0, "color": "#0f172a" },
+      { "offset": 0.2, "color": "#312e81" },
+      { "offset": 0.55, "color": "#a855f7" },
+      { "offset": 1, "color": "#f97316" }
+    ],
+    "description": "Another synthetic panorama representing a tree-lined leisure valley promenade.",
+    "notes": "Replace with real imagery when deploying against live panorama sources.",
+    "heading": 180
+  }
+]

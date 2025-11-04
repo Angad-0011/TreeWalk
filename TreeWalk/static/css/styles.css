@@ -1,0 +1,375 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f9fc;
+  --panel-bg: #ffffffcc;
+  --panel-border: #d8dee9;
+  --text: #1f2933;
+  --accent: #2f855a;
+  --accent-dark: #22543d;
+  --muted: #6c7a89;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(180deg, #eef2f7 0%, #ffffff 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem clamp(1rem, 5vw, 2.5rem);
+  background: #0f172a;
+  color: #f8fafc;
+  gap: 1rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2vw, 2.4rem);
+  font-weight: 700;
+}
+
+.tagline {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+.header-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat span {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.stat small {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 30%) minmax(400px, 40%) minmax(280px, 30%);
+  gap: 1.5rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  padding: 1.2rem;
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panorama-panel {
+  gap: 1rem;
+}
+
+.panorama-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--panel-border);
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.panorama-meta {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  min-height: 3.2rem;
+}
+
+.panorama-meta strong {
+  color: var(--text);
+}
+
+.panorama-note {
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.panorama-viewer {
+  flex: 1;
+  min-height: 260px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  background: #0f172a;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.panorama-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.primary-button,
+.secondary-button,
+.panorama-actions button {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.primary-button,
+.panorama-actions button {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary-button:hover,
+.panorama-actions button:hover {
+  background: var(--accent-dark);
+}
+
+.secondary-button {
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--accent-dark);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.secondary-button:hover {
+  background: rgba(15, 23, 42, 0.12);
+}
+
+.map-panel {
+  padding: 0;
+}
+
+#map {
+  flex: 1;
+  min-height: 500px;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.sidebar {
+  gap: 1.5rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-field input,
+.form-field textarea {
+  border-radius: 0.75rem;
+  border: 1px solid var(--panel-border);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.tree-list {
+  display: grid;
+  gap: 0.8rem;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.tree-row {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tree-row header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.tree-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.tree-id {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.tree-row dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem 1rem;
+}
+
+.tree-row dt {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.tree-row dd {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.tree-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.tree-actions a {
+  font-size: 0.85rem;
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.tree-actions a:hover {
+  text-decoration: underline;
+}
+
+.panel-intro {
+  margin-top: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sr-only,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-panel,
+  .sidebar,
+  .panorama-panel {
+    min-height: auto;
+  }
+
+  #map {
+    min-height: 400px;
+  }
+
+  .tree-list {
+    max-height: none;
+  }
+
+  .header-stats {
+    gap: 1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --panel-bg: rgba(30, 41, 59, 0.85);
+    --panel-border: rgba(148, 163, 184, 0.3);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-dark: #0ea5e9;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.45);
+  }
+
+  body {
+    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+  }
+
+  .card,
+  .panel {
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  .tree-row {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .primary-button,
+  .panorama-actions button {
+    color: #0f172a;
+  }
+}
