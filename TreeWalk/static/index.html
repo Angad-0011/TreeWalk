@@ -1,106 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TreeWalk – Tree Inventory Tool</title>
-    <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-GZC0bIYGSrrsuUxzGq+KUX/B+gttqkOD9u9PlnnwY3A="
-      crossorigin=""
-    />
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-      }
-      header {
-        background: #2c3e50;
-        color: #ecf0f1;
-        padding: 10px 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      header h1 {
-        margin: 0;
-        font-size: 1.4em;
-      }
-      #content {
-        display: flex;
-        height: calc(100vh - 50px);
-      }
-      #map {
-        flex: 2;
-        min-height: 100%;
-      }
-      #sidebar {
-        flex: 1;
-        border-left: 1px solid #ccc;
-        padding: 10px;
-        overflow-y: auto;
-      }
-      #tree-form {
-        margin-bottom: 20px;
-      }
-      #tree-form label {
-        display: block;
-        margin-top: 8px;
-      }
-      #tree-list table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      #tree-list th, #tree-list td {
-        padding: 4px;
-        border-bottom: 1px solid #ddd;
-        font-size: 0.9em;
-      }
-      #tree-list th {
-        text-align: left;
-        background: #f5f5f5;
-      }
-      .street-link {
-        color: #3498db;
-        text-decoration: none;
-      }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TreeWalk – Lightweight Tree Inventory</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-GZC0bIYGSrrsuUxzGq+KUX/B+gttqkOD9u9PlnnwY3A="
+    crossorigin=""
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@5/dist/photo-sphere-viewer.css"
+    integrity="sha256-+za9Z36ovQLf54PXp3urYhoZOSMDNzh5DccnE9vrFdc="
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header>
-    <h1>TreeWalk</h1>
-    <span>A lightweight clone of Project Sidewalk for tree inventory</span>
-  </header>
-  <div id="content">
-    <div id="map"></div>
-    <aside id="sidebar">
-      <h2>Add a Tree</h2>
-      <form id="tree-form">
-        <label for="lat">Latitude</label>
-        <input type="number" step="any" id="lat" name="lat" required>
-        <label for="lon">Longitude</label>
-        <input type="number" step="any" id="lon" name="lon" required>
-        <label for="species">Species (optional)</label>
-        <input type="text" id="species" name="species" placeholder="e.g., Neem">
-        <label for="notes">Notes (optional)</label>
-        <input type="text" id="notes" name="notes" placeholder="Any additional info">
-        <button type="submit">Add Tree</button>
-      </form>
-      <h2>Existing Trees</h2>
-      <div id="tree-list">
-        <!-- Table will be populated by JavaScript -->
+  <header class="app-header">
+    <div>
+      <h1>TreeWalk</h1>
+      <p class="tagline">A lighter, zero-database clone of Project Sidewalk tailored for trees.</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat">
+        <span id="tree-count">0</span>
+        <small>Trees catalogued</small>
       </div>
-    </aside>
-  </div>
+      <div class="stat">
+        <span id="panorama-count">0</span>
+        <small>Panoramas</small>
+      </div>
+    </div>
+  </header>
 
-  <!-- Leaflet JS -->
+  <main class="layout">
+    <section class="panel panorama-panel">
+      <h2>Panorama Browser</h2>
+      <p class="panel-intro">
+        Explore available panoramas, move around the scene, then drop a tree at the
+        current panorama location.
+      </p>
+      <label class="sr-only" for="panorama-select">Panorama</label>
+      <select id="panorama-select" class="panorama-select"></select>
+      <div id="panorama-meta" class="panorama-meta"></div>
+      <div id="panorama-viewer" class="panorama-viewer" aria-live="polite"></div>
+      <div class="panorama-actions">
+        <button id="use-panorama-location" type="button">Use panorama location for new tree</button>
+        <a id="open-street-view" href="#" target="_blank" rel="noopener" class="secondary-button">Open in Google Street View</a>
+      </div>
+    </section>
+
+    <section class="panel map-panel">
+      <h2 class="visually-hidden">Tree map</h2>
+      <div id="map" role="application" aria-label="Interactive map showing tree locations"></div>
+    </section>
+
+    <aside class="panel sidebar" id="sidebar">
+      <section class="card">
+        <h2>Add a Tree</h2>
+        <form id="tree-form" autocomplete="off">
+          <div class="form-field">
+            <label for="lat">Latitude</label>
+            <input type="number" step="any" id="lat" name="lat" required />
+          </div>
+          <div class="form-field">
+            <label for="lon">Longitude</label>
+            <input type="number" step="any" id="lon" name="lon" required />
+          </div>
+          <div class="form-field">
+            <label for="species">Species <span class="muted">(optional)</span></label>
+            <input type="text" id="species" name="species" placeholder="e.g., Neem" />
+          </div>
+          <div class="form-field">
+            <label for="notes">Notes <span class="muted">(optional)</span></label>
+            <textarea id="notes" name="notes" rows="2" placeholder="Condition, planting strip, width…"></textarea>
+          </div>
+          <button type="submit" class="primary-button">Save Tree</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Existing Trees</h2>
+        <div id="tree-list" class="tree-list" aria-live="polite"></div>
+      </section>
+    </aside>
+  </main>
+
+  <template id="tree-row-template">
+    <article class="tree-row">
+      <header>
+        <h3 class="tree-title"></h3>
+        <span class="tree-id"></span>
+      </header>
+      <dl>
+        <div><dt>Lat</dt><dd class="tree-lat"></dd></div>
+        <div><dt>Lon</dt><dd class="tree-lon"></dd></div>
+        <div class="tree-species-row"><dt>Species</dt><dd class="tree-species"></dd></div>
+        <div class="tree-notes-row"><dt>Notes</dt><dd class="tree-notes"></dd></div>
+        <div><dt>Recorded</dt><dd class="tree-time"></dd></div>
+      </dl>
+      <div class="tree-actions">
+        <a class="tree-map-link" target="_blank" rel="noopener">Open map</a>
+        <a class="tree-street-view" target="_blank" rel="noopener">Street View</a>
+      </div>
+    </article>
+  </template>
+
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-oM/iD2V7Jfv8b6up5JSbuNpp3AVDfiibsZli1LVQ21o="
     crossorigin=""
   ></script>
-  <script src="js/main.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/uevent@2.0.1/browser.min.js"
+    integrity="sha256-exVPoyb9lRiKqXQpUHVY3RaNVdpKHj7AdamhTaATe5Q="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"
+    integrity="sha256-kSK1bIGnQHlnPifgcaXSaC29OKmPtKpwvPknSCAA2ZY="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@5/dist/photo-sphere-viewer.min.js"
+    integrity="sha256-e4j6EGnRy5Z6wG3qOAxF78bXpHSvuoG+qxEM9UFHwXo="
+    crossorigin="anonymous"
+  ></script>
+  <script src="js/main.js" type="module"></script>
 </body>
 </html>
