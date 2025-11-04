@@ -230,7 +230,7 @@ function highlightPanoramaMarker(id) {
 
 async function loadPanoramas() {
   try {
-    const response = await fetch('data/panoramas.json');
+    const response = await fetch('/data/panoramas.json');
     const data = await response.json();
     panoramas = Array.isArray(data)
       ? data
